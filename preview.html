@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forge - Premium Frontend Preview</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+      :root {
+        --page: #1e2d20;
+        --bg: #111311;
+        --bg-2: #151815;
+        --ink: #f7fbf5;
+        --soft-ink: #aeb9ac;
+        --muted: #737d73;
+        --line: rgba(226, 255, 224, 0.1);
+        --line-strong: rgba(194, 255, 185, 0.24);
+        --panel: rgba(23, 26, 23, 0.76);
+        --panel-strong: rgba(26, 30, 26, 0.94);
+        --green: #9af5a7;
+        --green-2: #53d66d;
+        --green-3: #1d7c3e;
+        --warm: #f2c16d;
+        --danger: #ff6d57;
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        letter-spacing: 0;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .shell {
+        width: min(1440px, calc(100% - 48px));
+        margin: 36px auto;
+        overflow: hidden;
+        border: 1px solid rgba(211, 255, 207, 0.12);
+        background:
+          linear-gradient(180deg, rgba(18, 21, 18, 0.96), rgba(16, 18, 16, 0.98)),
+          var(--bg);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 880px;
+        padding: 28px 72px 88px;
+        isolation: isolate;
+      }
+
+      .hero::before,
+      .section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        background-image:
+          radial-gradient(circle, rgba(189, 255, 185, 0.13) 1px, transparent 1.5px),
+          linear-gradient(rgba(205, 255, 202, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(205, 255, 202, 0.035) 1px, transparent 1px);
+        background-position:
+          center 170px,
+          center top,
+          center top;
+        background-size:
+          22px 22px,
+          72px 72px,
+          72px 72px;
+        mask-image: radial-gradient(ellipse at center 28%, black 0%, rgba(0, 0, 0, 0.88) 36%, transparent 74%);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:
+          linear-gradient(90deg, #101210 0%, transparent 22%, transparent 78%, #101210 100%),
+          linear-gradient(180deg, transparent 0%, #101210 78%);
+      }
+
+      .nav {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+      }
+
+      .mark {
+        display: grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--green), var(--green-2));
+        color: #102112;
+        box-shadow: 0 0 30px rgba(154, 245, 167, 0.36);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        color: #c5cec3;
+        font-size: 13px;
+      }
+
+      .nav-links a {
+        transition: color 160ms ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 40px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0 18px;
+        background: linear-gradient(180deg, #b8ffc0, #84e994);
+        color: #122015;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 800;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.55),
+          0 10px 30px rgba(132, 233, 148, 0.22);
+        transition:
+          transform 170ms ease,
+          filter 170ms ease,
+          border-color 170ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        filter: saturate(1.08);
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: var(--ink);
+        box-shadow: none;
+      }
+
+      .btn.secondary {
+        border-color: var(--line);
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--ink);
+        box-shadow: none;
+      }
+
+      .hero-copy {
+        display: grid;
+        justify-items: center;
+        margin: 124px auto 0;
+        text-align: center;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        width: max-content;
+        border: 1px solid rgba(154, 245, 167, 0.24);
+        border-radius: 999px;
+        padding: 8px 13px;
+        background: rgba(154, 245, 167, 0.07);
+        color: #d9ffe0;
+        font-size: 12px;
+        font-weight: 700;
+        box-shadow: 0 0 40px rgba(154, 245, 167, 0.08);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Space Grotesk", Inter, sans-serif;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        max-width: 850px;
+        margin-top: 26px;
+        font-size: clamp(48px, 6.8vw, 88px);
+        line-height: 0.96;
+        font-weight: 700;
+      }
+
+      .green-text {
+        color: var(--green);
+        text-shadow: 0 0 34px rgba(154, 245, 167, 0.18);
+      }
+
+      .lead {
+        max-width: 690px;
+        margin: 26px auto 0;
+        color: var(--soft-ink);
+        font-size: 16px;
+        line-height: 1.75;
+      }
+
+      .composer-wrap {
+        position: relative;
+        width: min(660px, 100%);
+        margin: 72px auto 0;
+      }
+
+      .composer-wrap::before {
+        content: "";
+        position: absolute;
+        inset: -110px -150px;
+        z-index: -1;
+        background:
+          linear-gradient(rgba(154, 245, 167, 0.1), transparent),
+          repeating-linear-gradient(180deg, rgba(154, 245, 167, 0.05) 0 1px, transparent 1px 24px);
+        mask-image: linear-gradient(to bottom, transparent, black 36%, transparent);
+        opacity: 0.85;
+      }
+
+      .composer {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+        border-radius: 10px;
+        background: rgba(17, 19, 17, 0.82);
+        box-shadow:
+          0 28px 100px rgba(0, 0, 0, 0.46),
+          0 0 0 1px rgba(255, 255, 255, 0.025) inset;
+        backdrop-filter: blur(22px);
+      }
+
+      .composer textarea {
+        width: 100%;
+        min-height: 94px;
+        resize: none;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 20px 22px 10px;
+        background: transparent;
+        color: var(--ink);
+        outline: 0;
+        font-size: 13px;
+      }
+
+      .composer textarea::placeholder {
+        color: #8d998b;
+      }
+
+      .composer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+      }
+
+      .tool-tabs {
+        display: flex;
+        gap: 6px;
+        overflow: auto;
+      }
+
+      .tool-tabs span {
+        border-radius: 7px;
+        padding: 7px 10px;
+        color: #8e9a8d;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .tool-tabs span.active {
+        background: rgba(154, 245, 167, 0.12);
+        color: var(--ink);
+      }
+
+      .send {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--green);
+        color: #102112;
+        cursor: pointer;
+        font-weight: 900;
+      }
+
+      .logos {
+        display: grid;
+        justify-items: center;
+        gap: 24px;
+        margin-top: 130px;
+      }
+
+      .logos p {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .logo-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 26px 42px;
+        max-width: 700px;
+        color: #d8ddd6;
+        font-family: "Space Grotesk", Inter, sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        opacity: 0.9;
+      }
+
+      .section {
+        position: relative;
+        padding: 94px 72px;
+        background: #111311;
+        isolation: isolate;
+      }
+
+      .section::before {
+        mask-image: radial-gradient(ellipse at center, black 0%, transparent 68%);
+        opacity: 0.46;
+      }
+
+      .section-title {
+        display: grid;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .kicker {
+        color: var(--green);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        max-width: 760px;
+        margin-top: 14px;
+        font-size: clamp(34px, 4vw, 52px);
+        line-height: 1.04;
+      }
+
+      .section-title p {
+        max-width: 620px;
+        margin-top: 16px;
+        color: var(--soft-ink);
+        line-height: 1.7;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+        width: min(1060px, 100%);
+        margin: 62px auto 0;
+      }
+
+      .step-card,
+      .feature-card,
+      .price-card,
+      .faq,
+      .studio {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+          var(--panel);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+      }
+
+      .step-card {
+        min-height: 236px;
+        padding: 28px;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease;
+      }
+
+      .step-card:hover,
+      .feature-card:hover,
+      .price-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(154, 245, 167, 0.28);
+        background:
+          linear-gradient(180deg, rgba(154, 245, 167, 0.055), rgba(255, 255, 255, 0.012)),
+          var(--panel);
+      }
+
+      .card-icon {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border: 1px solid rgba(154, 245, 167, 0.22);
+        border-radius: 8px;
+        background: rgba(154, 245, 167, 0.08);
+        color: var(--green);
+        font-weight: 900;
+      }
+
+      .step-card small,
+      .price-card small {
+        display: block;
+        margin-top: 38px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .step-card h3,
+      .feature-card h3,
+      .price-card h3 {
+        margin-top: 14px;
+        font-size: 18px;
+      }
+
+      .step-card p,
+      .feature-card p,
+      .price-card p,
+      .faq p {
+        margin: 12px 0 0;
+        color: var(--soft-ink);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        width: min(1060px, 100%);
+        margin: 64px auto 0;
+      }
+
+      .feature-card {
+        min-height: 294px;
+        overflow: hidden;
+        padding: 24px;
+      }
+
+      .feature-visual {
+        position: relative;
+        height: 150px;
+        margin-top: 22px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 0%, rgba(154, 245, 167, 0.15), transparent 42%),
+          #171a17;
+      }
+
+      .feature-visual::before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border: 1px dashed rgba(154, 245, 167, 0.28);
+        border-radius: 8px;
+      }
+
+      .feature-visual::after {
+        content: "";
+        position: absolute;
+        left: 42px;
+        right: 42px;
+        top: 66px;
+        height: 34px;
+        border-radius: 8px;
+        background: linear-gradient(90deg, rgba(154, 245, 167, 0.18), rgba(255, 255, 255, 0.05));
+      }
+
+      .pricing {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        width: min(1060px, 100%);
+        margin: 64px auto 0;
+      }
+
+      .price-card {
+        padding: 28px;
+      }
+
+      .price-card.featured {
+        border-color: rgba(154, 245, 167, 0.36);
+        background:
+          linear-gradient(180deg, rgba(154, 245, 167, 0.09), rgba(154, 245, 167, 0.025)),
+          var(--panel);
+      }
+
+      .price {
+        margin-top: 18px;
+        font-family: "Space Grotesk", Inter, sans-serif;
+        font-size: 36px;
+        font-weight: 700;
+      }
+
+      .price span {
+        color: var(--muted);
+        font-family: Inter, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .feature-list {
+        display: grid;
+        gap: 11px;
+        margin-top: 24px;
+        padding: 0;
+        color: var(--soft-ink);
+        font-size: 13px;
+        list-style: none;
+      }
+
+      .feature-list li::before {
+        content: "✓";
+        margin-right: 9px;
+        color: var(--green);
+      }
+
+      .studio {
+        width: min(1180px, 100%);
+        margin: 64px auto 0;
+        overflow: hidden;
+      }
+
+      .studio-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .studio-grid {
+        display: grid;
+        grid-template-columns: 310px minmax(340px, 0.85fr) minmax(420px, 1.15fr);
+        min-height: 650px;
+      }
+
+      .chat,
+      .code,
+      .preview {
+        min-width: 0;
+        border-right: 1px solid var(--line);
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .tabs button,
+      .mode button {
+        border: 0;
+        border-radius: 7px;
+        padding: 9px 10px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .tabs button.active,
+      .mode button.active {
+        background: rgba(154, 245, 167, 0.12);
+        color: var(--ink);
+      }
+
+      .messages {
+        display: grid;
+        align-content: start;
+        gap: 10px;
+        height: 440px;
+        overflow: auto;
+        padding: 14px;
+      }
+
+      .message {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--soft-ink);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .message.user {
+        margin-left: 28px;
+        border-color: rgba(154, 245, 167, 0.26);
+        background: rgba(154, 245, 167, 0.1);
+        color: var(--ink);
+      }
+
+      .mini-composer {
+        padding: 12px;
+        border-top: 1px solid var(--line);
+      }
+
+      .mini-composer textarea {
+        width: 100%;
+        min-height: 88px;
+        resize: vertical;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--ink);
+        outline: 0;
+      }
+
+      .code {
+        background: #0d100d;
+      }
+
+      .file-row {
+        display: flex;
+        gap: 8px;
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .file-row button {
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 8px 10px;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--soft-ink);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .file-row button.active {
+        border-color: rgba(154, 245, 167, 0.28);
+        color: var(--ink);
+      }
+
+      pre {
+        margin: 0;
+        height: 592px;
+        overflow: auto;
+        padding: 20px;
+        color: #d6e4d3;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .preview {
+        border-right: 0;
+        background:
+          linear-gradient(rgba(154, 245, 167, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(154, 245, 167, 0.035) 1px, transparent 1px);
+        background-size: 26px 26px;
+      }
+
+      .preview-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .mode {
+        display: flex;
+        gap: 5px;
+        border-radius: 8px;
+        padding: 4px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .preview-stage {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        overflow: auto;
+      }
+
+      .site-preview {
+        width: 100%;
+        max-width: 760px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 10px;
+        background: #f8faf6;
+        color: #101510;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        transition: max-width 220ms ease;
+      }
+
+      .site-preview.tablet {
+        max-width: 620px;
+      }
+
+      .site-preview.mobile {
+        max-width: 380px;
+      }
+
+      .site-preview.mobile .site-hero,
+      .site-preview.mobile .site-pricing {
+        grid-template-columns: 1fr;
+      }
+
+      .site-nav,
+      .site-hero,
+      .site-pricing {
+        padding: 22px;
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(10, 20, 10, 0.1);
+      }
+
+      .site-hero {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .site-hero h3 {
+        color: #101510;
+        font-size: 42px;
+        line-height: 1.02;
+      }
+
+      .site-hero p {
+        margin-top: 14px;
+        color: #687467;
+        line-height: 1.65;
+      }
+
+      .product-shot {
+        border: 1px solid rgba(10, 20, 10, 0.1);
+        border-radius: 10px;
+        padding: 14px;
+        background: white;
+        box-shadow: 0 20px 54px rgba(21, 44, 24, 0.14);
+      }
+
+      .shot-art {
+        height: 132px;
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, rgba(15, 95, 89, 0.95), rgba(154, 245, 167, 0.85)),
+          repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.24) 0 1px, transparent 1px 16px);
+      }
+
+      .shot-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        border: 1px solid rgba(10, 20, 10, 0.1);
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 13px;
+      }
+
+      .site-pricing {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        border-top: 1px solid rgba(10, 20, 10, 0.1);
+      }
+
+      .site-price {
+        border: 1px solid rgba(10, 20, 10, 0.1);
+        border-radius: 8px;
+        padding: 14px;
+        background: white;
+      }
+
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        width: min(1060px, 100%);
+        margin: 56px auto 0;
+      }
+
+      .faq {
+        padding: 18px;
+      }
+
+      .floating-command {
+        position: fixed;
+        left: 50%;
+        top: 32px;
+        z-index: 40;
+        display: none;
+        width: min(560px, calc(100% - 32px));
+        transform: translateX(-50%);
+        border: 1px solid var(--line-strong);
+        border-radius: 10px;
+        background: rgba(17, 19, 17, 0.94);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .floating-command.open {
+        display: block;
+      }
+
+      .floating-command input {
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 18px;
+        background: transparent;
+        color: var(--ink);
+        outline: 0;
+      }
+
+      .command-items {
+        display: grid;
+        gap: 6px;
+        padding: 10px;
+      }
+
+      .command-items button {
+        display: flex;
+        justify-content: space-between;
+        border: 0;
+        border-radius: 8px;
+        padding: 12px;
+        background: transparent;
+        color: var(--soft-ink);
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .command-items button:hover {
+        background: rgba(154, 245, 167, 0.1);
+        color: var(--ink);
+      }
+
+      @media (max-width: 1180px) {
+        .hero,
+        .section {
+          padding-inline: 34px;
+        }
+
+        .steps,
+        .pricing {
+          grid-template-columns: 1fr;
+        }
+
+        .features,
+        .faq-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .studio-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .chat,
+        .code,
+        .preview {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+      }
+
+      @media (max-width: 760px) {
+        .shell {
+          width: 100%;
+          margin: 0;
+          border-inline: 0;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 22px 18px 68px;
+        }
+
+        .nav {
+          align-items: flex-start;
+        }
+
+        .nav-links,
+        .login-link {
+          display: none;
+        }
+
+        .hero-copy {
+          margin-top: 72px;
+        }
+
+        h1 {
+          font-size: 48px;
+        }
+
+        .composer-bottom,
+        .studio-top,
+        .builder-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .logos {
+          margin-top: 82px;
+        }
+
+        .logo-row {
+          gap: 16px 24px;
+          font-size: 16px;
+        }
+
+        .section {
+          padding: 68px 18px;
+        }
+
+        .feature-card,
+        .step-card,
+        .price-card {
+          padding: 20px;
+        }
+
+        .site-hero,
+        .site-pricing {
+          grid-template-columns: 1fr;
+        }
+
+        .site-nav div {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="floating-command" id="command">
+      <input placeholder="Jump to dashboard, builder, pricing, templates..." />
+      <div class="command-items">
+        <button data-scroll="#hero">Hero <span>Landing</span></button>
+        <button data-scroll="#steps">How it works <span>Workflow</span></button>
+        <button data-scroll="#studio">Builder demo <span>Product</span></button>
+        <button data-scroll="#pricing">Pricing <span>Plans</span></button>
+      </div>
+    </div>
+
+    <main class="shell">
+      <section class="hero" id="hero">
+        <nav class="nav">
+          <a class="brand" href="#hero">
+            <span class="mark">F</span>
+            <span>Forge</span>
+          </a>
+          <div class="nav-links">
+            <a href="#steps">Product</a>
+            <a href="#features">Templates</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#studio">Community</a>
+            <a href="#faq">Resources</a>
+          </div>
+          <div class="nav-actions">
+            <a class="login-link" href="#studio">Login</a>
+            <a class="btn" href="#studio">Get Started Free <span aria-hidden="true">→</span></a>
+          </div>
+        </nav>
+
+        <div class="hero-copy">
+          <div class="badge">First month free <span>•</span> Annual plan</div>
+          <h1>Your AI partner for faster <span class="green-text">website creation.</span></h1>
+          <p class="lead">
+            Outline your vision and Forge generates a structured website with pages, components,
+            responsive styling, version history, GitHub sync, and deploy-ready previews.
+          </p>
+
+          <div class="composer-wrap">
+            <div class="composer">
+              <textarea placeholder="Which website do you want to create, and what is the goal behind it?"></textarea>
+              <div class="composer-bottom">
+                <div class="tool-tabs">
+                  <span class="active">Build</span>
+                  <span>Plan</span>
+                  <span>Design</span>
+                  <span>Refine</span>
+                  <span>Launch</span>
+                </div>
+                <button class="send" aria-label="Generate">→</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="logos">
+            <p>Crafted with confidence by creators and teams.</p>
+            <div class="logo-row">
+              <span>ORACLE</span>
+              <span>cansaās</span>
+              <span>OpenAI</span>
+              <span>GitHub</span>
+              <span>slack</span>
+              <span>clerk</span>
+              <span>Vercel</span>
+              <span>mintlify</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="steps">
+        <div class="section-title">
+          <span class="kicker">How it works</span>
+          <h2>Build your website in three sharp moves.</h2>
+          <p>
+            Forge turns rough direction into an organized site plan, component system, and
+            editable preview without making the workflow feel heavy.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step-card">
+            <div class="card-icon">1</div>
+            <small>Step 1</small>
+            <h3>Share the vision</h3>
+            <p>Describe the product, audience, tone, pages, conversion goal, and constraints.</p>
+          </article>
+          <article class="step-card">
+            <div class="card-icon">2</div>
+            <small>Step 2</small>
+            <h3>AI creates the framework</h3>
+            <p>Planner and UI agents draft the sitemap, React files, Tailwind styling, and copy.</p>
+          </article>
+          <article class="step-card">
+            <div class="card-icon">3</div>
+            <small>Step 3</small>
+            <h3>Evaluate the UX wireframes</h3>
+            <p>Review responsive previews, regenerate sections, save versions, and ship.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="section-title">
+          <span class="kicker">Features</span>
+          <h2>Everything needed to move from prompt to production.</h2>
+          <p>
+            A polished generation loop with code visibility, project memory, source control,
+            deployment status, and team-ready foundations.
+          </p>
+        </div>
+
+        <div class="features">
+          <article class="feature-card">
+            <div class="card-icon">P</div>
+            <h3>Sitemap created by AI</h3>
+            <p>Generate pages, sections, data needs, and route structure before writing code.</p>
+            <div class="feature-visual"></div>
+          </article>
+          <article class="feature-card">
+            <div class="card-icon">U</div>
+            <h3>Wireframes with AI UX focus</h3>
+            <p>Preview composition, hierarchy, conversion flow, and responsive breakpoints.</p>
+            <div class="feature-visual"></div>
+          </article>
+          <article class="feature-card">
+            <div class="card-icon">C</div>
+            <h3>Design-ready deliverables</h3>
+            <p>Export clean React components, Tailwind tokens, shadcn-style primitives, and ZIPs.</p>
+            <div class="feature-visual"></div>
+          </article>
+          <article class="feature-card">
+            <div class="card-icon">R</div>
+            <h3>Collaborate in real time</h3>
+            <p>Prepare branches, snapshots, share links, comments, and team permissions.</p>
+            <div class="feature-visual"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="studio">
+        <div class="section-title">
+          <span class="kicker">Studio</span>
+          <h2>A builder workspace that feels fast before it gets powerful.</h2>
+          <p>
+            Chat, agent status, code, responsive preview, project history, GitHub sync, and deployment
+            controls share one focused surface.
+          </p>
+        </div>
+
+        <div class="studio">
+          <div class="studio-top">
+            <div>
+              <strong>Northstar SaaS</strong>
+              <p style="margin: 5px 0 0; color: var(--soft-ink); font-size: 13px">
+                Autosaved • Version 18 • GitHub branch ready
+              </p>
+            </div>
+            <div class="nav-actions builder-actions">
+              <button class="btn secondary">Fork</button>
+              <button class="btn secondary">Export ZIP</button>
+              <button class="btn secondary">Push GitHub</button>
+              <button class="btn">Deploy</button>
+            </div>
+          </div>
+
+          <div class="studio-grid">
+            <aside class="chat">
+              <div class="tabs">
+                <button class="active">Chat</button>
+                <button>Agents</button>
+                <button>History</button>
+              </div>
+              <div class="messages" id="messages">
+                <div class="message">
+                  Planner agent scoped the site into hero, social proof, feature narrative, pricing,
+                  and FAQ sections.
+                </div>
+                <div class="message user">
+                  Create a SaaS landing page for an AI support automation company.
+                </div>
+                <div class="message">
+                  UI generator produced a responsive structure, premium tokens, reusable cards, and
+                  a live preview.
+                </div>
+              </div>
+              <div class="mini-composer">
+                <textarea id="prompt">Make the hero more cinematic and add a premium pricing section.</textarea>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px">
+                  <span style="color: var(--muted); font-size: 12px">Streaming generation preview</span>
+                  <button class="btn" id="send">Send</button>
+                </div>
+              </div>
+            </aside>
+
+            <section class="code">
+              <div class="file-row">
+                <button class="active" data-file="page">app/page.tsx</button>
+                <button data-file="hero">hero.tsx</button>
+                <button data-file="tokens">tokens.ts</button>
+              </div>
+              <pre><code id="code">export default function Page() {
+  return (
+    &lt;main className="min-h-screen bg-[#101210] text-[#f7fbf5]"&gt;
+      &lt;Hero /&gt;
+      &lt;FeatureGrid /&gt;
+      &lt;Pricing /&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+            </section>
+
+            <section class="preview">
+              <div class="preview-head">
+                <div>
+                  <strong>Live preview</strong>
+                  <p style="margin: 5px 0 0; color: var(--soft-ink); font-size: 12px">Responsive modes</p>
+                </div>
+                <div class="mode">
+                  <button class="active" data-mode="desktop">Desktop</button>
+                  <button data-mode="tablet">Tablet</button>
+                  <button data-mode="mobile">Mobile</button>
+                </div>
+              </div>
+              <div class="preview-stage">
+                <div class="site-preview" id="site-preview">
+                  <div class="site-nav">
+                    <strong>Northstar</strong>
+                    <div style="display: flex; gap: 16px; color: #677366; font-size: 12px">
+                      <span>Product</span><span>Pricing</span><span>Docs</span>
+                    </div>
+                    <button class="btn">Start free</button>
+                  </div>
+                  <div class="site-hero">
+                    <div>
+                      <h3>Resolve customer work before it becomes a queue.</h3>
+                      <p>
+                        AI agents, approvals, and operational visibility for teams that need
+                        support work to move cleanly.
+                      </p>
+                    </div>
+                    <div class="product-shot">
+                      <div class="shot-art"></div>
+                      <div class="shot-row"><strong>AI triage</strong><span>Live</span></div>
+                      <div class="shot-row"><strong>Human approval</strong><span>Ready</span></div>
+                      <div class="shot-row"><strong>Deploy notes</strong><span>Synced</span></div>
+                    </div>
+                  </div>
+                  <div class="site-pricing">
+                    <div class="site-price"><strong>Starter</strong><p>$19 /mo</p></div>
+                    <div class="site-price"><strong>Scale</strong><p>$79 /mo</p></div>
+                    <div class="site-price"><strong>Team</strong><p>$199 /mo</p></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="section-title">
+          <span class="kicker">Pricing</span>
+          <h2>Affordable plans for every build phase.</h2>
+          <p>
+            Begin with daily credits, upgrade when your team needs collaboration, exports,
+            deployments, and version control.
+          </p>
+        </div>
+
+        <div class="pricing">
+          <article class="price-card">
+            <div class="card-icon">S</div>
+            <h3>Starter Plan</h3>
+            <p>Explore ideas and early concepts.</p>
+            <div class="price">$0 <span>/month</span></div>
+            <button class="btn secondary" style="width: 100%; margin-top: 18px">Start for free</button>
+            <ul class="feature-list">
+              <li>Daily AI credits</li>
+              <li>Automatic sitemap generation</li>
+              <li>Live preview exports</li>
+              <li>Template library access</li>
+            </ul>
+          </article>
+          <article class="price-card featured">
+            <div class="card-icon">P</div>
+            <h3>Pro Plan</h3>
+            <p>For builders shipping real projects.</p>
+            <div class="price">$19 <span>/month</span></div>
+            <button class="btn" style="width: 100%; margin-top: 18px">Upgrade to Pro</button>
+            <ul class="feature-list">
+              <li>Increased daily credits</li>
+              <li>GitHub repository sync</li>
+              <li>Vercel deployment tracking</li>
+              <li>Priority refinement agents</li>
+            </ul>
+          </article>
+          <article class="price-card">
+            <div class="card-icon">T</div>
+            <h3>Team Plan</h3>
+            <p>For studios collaborating on multiple sites.</p>
+            <div class="price">$49 <span>/month</span></div>
+            <button class="btn secondary" style="width: 100%; margin-top: 18px">Start with Team</button>
+            <ul class="feature-list">
+              <li>Real-time collaboration</li>
+              <li>Shared project workspace</li>
+              <li>Role-based permissions</li>
+              <li>Dedicated team support</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="section-title">
+          <span class="kicker">FAQ</span>
+          <h2>Frequently asked questions.</h2>
+          <p>Everything needed to know before building your first website with AI.</p>
+        </div>
+        <div class="faq-grid">
+          <article class="faq">
+            <h3>Do I need design or coding skills?</h3>
+            <p>No. Forge starts with natural language and keeps the generated code visible for teams that want control.</p>
+          </article>
+          <article class="faq">
+            <h3>How does the AI builder work?</h3>
+            <p>Planner, UI, component, styling, and debugging agents collaborate through one streaming workflow.</p>
+          </article>
+          <article class="faq">
+            <h3>Can I export the code?</h3>
+            <p>Yes. Projects can be exported as ZIPs, synced to GitHub, or prepared for Vercel deployment.</p>
+          </article>
+          <article class="faq">
+            <h3>Is the backend ready?</h3>
+            <p>This preview focuses on the frontend. Auth, Prisma, OpenAI, GitHub, and Vercel wiring comes next.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const command = document.getElementById("command");
+
+      window.addEventListener("keydown", (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          command.classList.toggle("open");
+          command.querySelector("input").focus();
+        }
+        if (event.key === "Escape") {
+          command.classList.remove("open");
+        }
+      });
+
+      document.querySelectorAll("[data-scroll]").forEach((button) => {
+        button.addEventListener("click", () => {
+          command.classList.remove("open");
+          document.querySelector(button.dataset.scroll).scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      document.querySelectorAll("[data-mode]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-mode]").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          const preview = document.getElementById("site-preview");
+          preview.classList.remove("tablet", "mobile");
+          if (button.dataset.mode !== "desktop") preview.classList.add(button.dataset.mode);
+        });
+      });
+
+      const codeSamples = {
+        page: `export default function Page() {
+  return (
+    <main className="min-h-screen bg-[#101210] text-[#f7fbf5]">
+      <Hero />
+      <FeatureGrid />
+      <Pricing />
+    </main>
+  );
+}`,
+        hero: `export function Hero() {
+  return (
+    <section className="grid min-h-screen place-items-center">
+      <h1>Your AI partner for faster website creation.</h1>
+      <PromptComposer />
+    </section>
+  );
+}`,
+        tokens: `export const tokens = {
+  background: "#111311",
+  foreground: "#f7fbf5",
+  accent: "#9af5a7",
+  panel: "rgba(23,26,23,.76)",
+};`,
+      };
+
+      document.querySelectorAll("[data-file]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-file]").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          document.getElementById("code").textContent = codeSamples[button.dataset.file];
+        });
+      });
+
+      document.getElementById("send").addEventListener("click", () => {
+        const prompt = document.getElementById("prompt");
+        const value = prompt.value.trim();
+        if (!value) return;
+        const messages = document.getElementById("messages");
+        const user = document.createElement("div");
+        user.className = "message user";
+        user.textContent = value;
+        messages.appendChild(user);
+
+        const assistant = document.createElement("div");
+        assistant.className = "message";
+        assistant.textContent = "Component generator is reshaping the hero, pricing, and responsive preview...";
+        messages.appendChild(assistant);
+        prompt.value = "";
+        messages.scrollTop = messages.scrollHeight;
+
+        window.setTimeout(() => {
+          assistant.textContent =
+            "Styling agent applied the premium dark system, tightened spacing, and saved version v19.";
+          messages.scrollTop = messages.scrollHeight;
+        }, 700);
+      });
+    </script>
+  </body>
+</html>
