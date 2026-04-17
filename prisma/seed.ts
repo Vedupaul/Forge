@@ -27,6 +27,16 @@ const templates = [
 ];
 
 async function main() {
+  const demoUser = await prisma.user.upsert({
+    where: { email: "demo@forge.dev" },
+    update: {},
+    create: {
+      email: "demo@forge.dev",
+      name: "Demo User",
+      username: "demo",
+      emailVerified: new Date(),
+    },
+  });
   for (const template of templates) {
     await prisma.template.upsert({
       where: { slug: template.slug },
