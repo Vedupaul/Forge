@@ -5,9 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { PreviewIcon } from "@/components/ui/preview-icon";
-import { projects, templates } from "@/lib/preview-data";
-
-export function DashboardScreen() {
+export function DashboardScreen({
+  projects,
+  templates,
+}: {
+  projects: any[];
+  templates: any[];
+}) {
   return (
     <div className="flex flex-col gap-8 p-4 md:p-8">
       <section className="grid gap-5 xl:grid-cols-[1fr_360px]">
@@ -65,7 +69,7 @@ export function DashboardScreen() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project) => (
             <Link key={project.id} href={`/projects/${project.id}`} className="group rounded-lg border bg-card/70 p-4 transition hover:-translate-y-1 hover:bg-card hover:shadow-lg">
-              <div className={`relative h-40 overflow-hidden rounded-md bg-gradient-to-br ${project.accent}`}>
+              <div className={`relative h-40 overflow-hidden rounded-md bg-gradient-to-br ${project.accent || 'from-zinc-800 to-zinc-900'}`}>
                 <div className="absolute inset-4 rounded-md border border-white/35 bg-white/28 p-3 backdrop-blur">
                   <div className="h-3 w-24 rounded-md bg-white/80" />
                   <div className="mt-6 h-8 w-40 rounded-md bg-white/70" />
@@ -81,14 +85,16 @@ export function DashboardScreen() {
                   <h3 className="font-semibold">{project.name}</h3>
                   <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground">{project.description}</p>
                 </div>
-                <Badge variant={project.status === "Ready" ? "success" : "secondary"}>{project.status}</Badge>
+                <Badge variant={project.status === "READY" || project.status === "Ready" ? "success" : "secondary"}>{project.status}</Badge>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                {project.preview.map((item) => (
+                {(project.preview || ["React", "TypeScript"]).map((item: string) => (
                   <Badge key={item} variant="outline">{item}</Badge>
                 ))}
               </div>
-              <div className="mt-4 text-xs text-muted-foreground">{project.updatedAt}</div>
+              <div className="mt-4 text-xs text-muted-foreground">
+                {project.lastEditedAt ? new Date(project.lastEditedAt).toLocaleDateString() : (project.updatedAt ? new Date(project.updatedAt).toLocaleDateString() : "Just now")}
+              </div>
             </Link>
           ))}
         </div>
