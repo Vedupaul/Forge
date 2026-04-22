@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     });
   }
 
-  const upstream = await fetch("https://api.openai.com/v1/responses", {
+  const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${env.OPENAI_API_KEY}`,
@@ -65,13 +65,20 @@ export async function POST(request: Request) {
     },
     body: JSON.stringify({
       model: env.OPENAI_MODEL,
-      instructions: AI_BUILDER_SYSTEM_PROMPT,
-      input: buildGenerationPrompt({
-        prompt,
-        projectName: body.projectName,
-        existingFiles: body.files,
-      }),
+      messages: [
+        { role: "system", content: AI_BUILDER_SYSTEM_PROMPT },
+        { 
+          role: "user", 
+          content: buildGenerationPrompt({
+            prompt,
+            projectName: body.projectName,
+            existingFiles: body.files,
+          }) 
+        },
+      ],
       stream: true,
+      temperature: 0.7,
+      max_tokens: 4000,
     }),
   });
 
