@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       branch?: string;
       message?: string;
     };
-    const project = getProject(body.projectId);
+    const project = await getProject(body.projectId);
     if (!project) {
       return NextResponse.json({ error: "Project not found." }, { status: 404 });
     }
@@ -21,10 +21,10 @@ export async function POST(request: Request) {
       repo: body.repo,
       branch: body.branch,
       message: body.message ?? `Update ${project.name} from Forge`,
-      files: project.files,
+      files: project.files as any,
     });
 
-    updateProject(project.id, {
+    await updateProject(project.id, {
       repository: {
         owner: body.owner,
         repo: body.repo,
