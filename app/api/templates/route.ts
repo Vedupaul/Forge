@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { templates } from "@/services/project-service";
+import { listTemplates } from "@/services/project-service";
 
-export function GET() {
+export async function GET() {
+  const templates = await listTemplates();
   return NextResponse.json({ templates });
 }
