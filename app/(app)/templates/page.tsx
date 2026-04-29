@@ -2,9 +2,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { templates } from "@/lib/preview-data";
+import { listTemplates } from "@/services/project-service";
 
-export default function TemplatesPage() {
+export default async function TemplatesPage() {
+  const templates = await listTemplates();
   return (
     <div className="flex flex-col gap-6 p-4 md:p-8">
       <div className="glass-panel rounded-lg p-6 md:p-8">
