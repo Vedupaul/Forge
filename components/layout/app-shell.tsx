@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PreviewIcon } from "@/components/ui/preview-icon";
 import { Separator } from "@/components/ui/separator";
-import { projects } from "@/lib/preview-data";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -19,7 +18,7 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: "S" },
 ];
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({ children, projects }: { children: ReactNode; projects: any[] }) {
   const pathname = usePathname();
 
   return (
@@ -75,7 +74,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                     <span className="truncate text-sm font-medium">{project.name}</span>
                     <span className="text-xs text-muted-foreground">{project.starred ? "*" : ""}</span>
                   </div>
-                  <div className="mt-2 text-xs text-muted-foreground">{project.updatedAt}</div>
+                  <div className="mt-2 text-xs text-muted-foreground">
+                    {project.lastEditedAt ? new Date(project.lastEditedAt).toLocaleDateString() : (project.updatedAt ? new Date(project.updatedAt).toLocaleDateString() : "Just now")}
+                  </div>
                 </Link>
               ))}
             </div>
