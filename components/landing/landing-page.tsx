@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { templates } from "@/lib/preview-data";
 
 const logos = ["Oracle", "Cansaas", "OpenAI", "GitHub", "Slack", "Clerk", "Vercel", "Mintlify"];
 const steps = [
@@ -23,7 +22,7 @@ const plans = [
   ["Team", "$49", "Shared workspaces, role-based permissions, and collaboration groundwork."],
 ];
 
-export function LandingPage() {
+export function LandingPage({ templates }: { templates: any[] }) {
   return (
     <main className="min-h-screen bg-[#1e2d20] px-0 py-0 text-foreground md:px-6 md:py-8">
       <div className="mx-auto max-w-[1440px] overflow-hidden border border-white/10 bg-background shadow-[0_40px_120px_rgba(0,0,0,0.5)]">
