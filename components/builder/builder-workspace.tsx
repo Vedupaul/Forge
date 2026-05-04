@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { CodeEditor } from "@/editor/code-editor";
-import { agentSteps, chatMessages, files, projects } from "@/lib/preview-data";
+import { agentSteps, chatMessages, files } from "@/lib/preview-data";
 import { cn } from "@/lib/utils";
 
 const previewModes = ["Desktop", "Tablet", "Mobile"] as const;
@@ -317,7 +317,7 @@ export function BuilderWorkspace() {
 }
 
 function PreviewSite({ compact }: { compact: boolean }) {
-  const project = projects[0];
+  const project = { accent: "from-teal-500 to-cyan-300" };
 
   return (
     <div className="overflow-hidden rounded-lg border bg-[#fbfcf8] text-[#101512] shadow-2xl dark:bg-[#121713] dark:text-[#eef5ef]">
