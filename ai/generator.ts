@@ -94,7 +94,7 @@ export function Pricing() {
         {plans.map((plan, index) => (
           <article key={plan} className="rounded-lg border border-white/10 bg-white/[0.035] p-6">
             <h3 className="text-xl font-semibold">{plan}</h3>
-            <div className="mt-5 text-4xl font-semibold">$${[0, 19, 49][index]}</div>
+            <div className="mt-5 text-4xl font-semibold">$\${[0, 19, 49][index]}</div>
             <p className="mt-4 text-sm leading-6 text-[#aeb9ac]">
               Includes AI edits, responsive previews, export, versioning, and deployment workflows.
             </p>
