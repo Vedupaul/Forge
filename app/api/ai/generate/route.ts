@@ -17,6 +17,6 @@ export async function POST(request: Request) {
   }
 
   const result = generateDeterministicSite(prompt);
-  const project = body.persist ? createProject(prompt) : null;
+  const project = body.persist ? await createProject(prompt) : null;
   return NextResponse.json({ result, project });
 }
