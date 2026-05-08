@@ -3,9 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { templates } from "@/lib/preview-data";
+import { listTemplates } from "@/services/project-service";
 
-export default function NewProjectPage() {
+export default async function NewProjectPage() {
+  const templates = await listTemplates();
   return (
     <div className="grid gap-6 p-4 md:p-8 xl:grid-cols-[1fr_360px]">
       <section className="glass-panel rounded-lg p-6 md:p-8">
